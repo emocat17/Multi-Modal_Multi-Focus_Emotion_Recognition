@@ -1,0 +1,6 @@
+pandas
+numpy
+IPython
+opensmile
+torch
+scikit-learn
