@@ -49,14 +49,6 @@ Description:
 - [Add the description of the notebook here]
 
 Results:
-- [Add the results of the notebook here]
-
-### 3. MMClassifier.ipynb
-
-Description:
-- [Add the description of the notebook here]
-
-Results:
 
 ### Results for Acoustic only models:
 **Train Results:**
@@ -94,6 +86,14 @@ Results:
 | CLS Block | 0.9369 | 63.13% | 63.18% | 62.62% | 65.00% | 61.66% | 63.45% |
 | Avg. Pool| 1.0551 | 62.68% | 60.56% | 52.34% | 70.31% | 67.83% | 51.78% |
 | Attention Weighted Pooling| 0.9641 | 63.13% | 64.83% | 73.36% | 55.62% | 59.79% | 70.56% |
+
+### 3. MMClassifier.ipynb
+
+Description:
+- [Add the description of the notebook here]
+
+Results:
+
 ### MM-B (Baseline Multimodal) Results
 **Train Performance**
 
