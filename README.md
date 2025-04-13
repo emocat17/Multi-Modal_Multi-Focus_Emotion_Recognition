@@ -40,15 +40,32 @@ Description:
 - Extract LLD features with OpenSMILE.
 - Remove samples with non-text characters.
 
-Results:
+#### Results:
 - The final dataset will be stored in the data DataFrame and is ready for further processing and analysis.
 
 ### 2. UnimodalClassifier.ipynb
 
-Description:
-- [Add the description of the notebook here]
+#### Description:
 
-Results:
+We focus on implementing and testing different BLSTM-based unimodal classifiers for lexical and acoustic data. It includes the following key components:
+
+- Loading libraries and preprocessing data.
+- Implementing multiple BLSTM-based classification models.
+- Exploring different pooling techniques for feature extraction and classification.
+
+We implement several BLSTM architectures tailored for unimodal classification tasks. These models differ in how they process sequence outputs:
+
+- Model I: BLSTM Last Block Output
+This model uses the output of the final BLSTM block for classification.
+    - It packs padded sequences for efficient processing, extracts the output corresponding to the last timestep of each sequence, and passes it through a fully connected layer for classification.
+- Model II: Averaging Pooling
+    - Here, average pooling is applied across all timesteps of the BLSTM outputs. The averaged features are used as input to a linear layer for classification.
+- Model III: Context-Based Attention Pooling
+    - This model incorporates attention mechanisms to compute weighted averages of BLSTM outputs based on learned context weights.
+
+A custom attention module (ContextBasedAttention) calculates attention scores, which are used to extract contextually relevant features for classification.
+
+#### Results:
 
 ### Results for Acoustic only models:
 **Train Results:**
@@ -89,10 +106,34 @@ Results:
 
 ### 3. MMClassifier.ipynb
 
-Description:
-- [Add the description of the notebook here]
+#### Description:
 
-Results:
+- Acoustic Models
+
+    Three BLSTM-based models are implemented for acoustic feature classification:
+    - Last Block Output: Uses the output of the final BLSTM block for classification.
+    - Average Pooling: Applies average pooling across all BLSTM outputs.
+    - Attention-Based: Uses context-based attention pooling to focus on important parts of the sequence.
+
+- Lexical Models
+
+Similar BLSTM-based models are implemented for lexical feature classification, with input embeddings extracted from a pre-trained BERT model.
+
+- Multimodal Models
+    - Baseline Multimodal Model (B-MM):
+        - Combines acoustic and lexical BLSTM outputs using concatenation.
+        - A fully connected layer is used for final classification.
+    - Gated Multimodal Unit (GMU):
+        - Implements modality-based attention using GMU to prioritize one modality over the other.
+        - Includes low-level attention mechanisms for both modalities.
+        - Outputs are fused using GMU before classification.
+
+Models are trained using CrossEntropyLoss and optimized with Adam optimizer.
+
+
+
+
+#### Results:
 
 ### MM-B (Baseline Multimodal) Results
 **Train Performance**
@@ -124,15 +165,54 @@ Results:
 
 ### 4. Analysis.ipynb
 
-Description:
-- [Add the description of the notebook here]
+#### Description:
 
-Results:
-- [Add the results of the notebook here]
+- Attention Values Plot
+
+Plots attention values for acoustic (A) and lexical (L) modalities.
+
+    def plot_attention_values(att_acoustic, att_lexical):
+        plt.bar(['A', 'L'], [att_acoustic, att_lexical], color=['blue', 'orange'])
+        plt.title('Attention Values')
+        plt.ylabel('Attention')
+        plt.show()
+
+
+
+- Plot Prediction Probabilities
+
+Visualizes probabilities for classes: Angry (A), Happy/Excited (H/E), Neutral (N), Sad (S).
+    
+    def plot_prediction_probabilities(probabilities):
+        plt.bar(['A', 'H/E', 'N', 'S'], probabilities, color=['red', 'orange', 'grey', 'cyan'])
+        plt.title('Prediction Probabilities')
+        plt.ylabel('Probability')
+        plt.show()
+
+
+- Acoustic vs Lexical Attention:
+
+Acoustic attention contributes ~45%, while lexical attention contributes ~55%.
+    
+    Acoustic Attention Mean: 0.45218852
+    Lexical Attention Mean: 0.54781148 (Calculated as `1 - Acoustic Attention`)
+
+
+
+
+#### Conclusion: 
+
+This analysis provides insights into the model's behavior:
+
+1. Accurate predictions for neutral emotions.
+2. Challenges in distinguishing ambiguous samples.
+3. High reliance on lexical modality.
+
+
+The visualizations help identify areas for improvement in speech emotion recognition models!
 
 
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
